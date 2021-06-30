@@ -1,10 +1,6 @@
 package com.hit.dm;
 
 public class Product {
-    private String Name;
-    private int Price;
-    private int Weight;
-
     public String getName() {
         return Name;
     }
@@ -28,6 +24,13 @@ public class Product {
     public void setWeight(int weight) {
         Weight = weight;
     }
+
+    private String Name;
+    private int Price;
+    private int Weight;
+
+
+
 
 
 }

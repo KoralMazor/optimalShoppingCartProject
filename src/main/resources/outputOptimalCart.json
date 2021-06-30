@@ -1,0 +1,23 @@
+{
+  "products" : [
+    {
+      "name" : "Apricots",
+      "weight": 120,
+      "price" : 30
+    },
+    {
+      "name" : "Banana",
+      "weight": 100,
+      "price" : 20
+    }
+  ],
+  "totalPrice" :  [
+    {
+      "price": 50
+    }
+  ],
+  "totalWeight": [
+    {
+      "totalWeight": 220
+    }
+  ]}

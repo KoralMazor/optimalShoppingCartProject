@@ -2,12 +2,20 @@ package com.hit.dm;
 
 import java.util.ArrayList;
 
-public class CartObject {
+public class OptimalCartObject {
 
     private ArrayList<Product>  products;
     private int totalPrice;
-    private String buyingOptionAlgo;
-    private int totalWeight;
+    private int totalWeights;
+
+    public int getTotalWeights() {
+        return totalWeights;
+    }
+
+    public void setTotalWeights(int totalWeights) {
+        this.totalWeights = totalWeights;
+    }
+    
     public ArrayList<Product> getProducts() {
         return products;
     }
@@ -19,19 +27,9 @@ public class CartObject {
     public int getTotalPrice() {
         return totalPrice;
     }
-    public int gettotalWeight() {
-       return totalWeight;
-    }
+
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public String getBuyingOptionAlgo() {
-        return buyingOptionAlgo;
-    }
-
-    public void setBuyingOptionAlgo(String buyingOptionAlgo) {
-        this.buyingOptionAlgo = buyingOptionAlgo;
     }
 
 

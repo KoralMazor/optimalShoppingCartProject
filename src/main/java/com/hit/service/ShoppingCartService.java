@@ -1,16 +1,19 @@
 package com.hit.service;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.URISyntaxException;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.google.gson.Gson;
 import com.hit.algo.IAlgoKnapsack;
 import com.hit.dao.DaoFileImpl;
 import com.hit.dao.IDao;
 import com.hit.dm.CartObject;
 import com.hit.dm.Product;
+import com.hit.utils.JsonHandler;
 
 public class ShoppingCartService {
     private IAlgoKnapsack algoKnapsack;
@@ -43,7 +46,7 @@ public class ShoppingCartService {
         DaoFileImpl daoFile = new DaoFileImpl();
         CartObject inputShoppingCart = daoFile.read("inputShoppingCartOptions.json");
         parseCartObjectToAlgoParams(inputShoppingCart);
-       // productsForOptimalCart = algoKnapsack.buildShoppingCart()
+        // productsForOptimalCart = algoKnapsack.buildShoppingCart()
         return inputShoppingCart;
 
     }
@@ -58,27 +61,35 @@ public class ShoppingCartService {
         int [] prices = new int[productsLength] ;
         int [] weights = new int[productsLength] ;
 
-            for (Product productItem : cartObject.getProducts()) {
-                prices[i] = productItem.getPrice();
-                weights[i] = productItem.getWeight();
-                i++;
-            }
-            totalPrice = cartObject.getTotalPrice();
-            buyingOption = cartObject.getBuyingOptionAlgo();
-
+        for (Product productItem : cartObject.getProducts()) {
+            prices[i] = productItem.getPrice();
+            weights[i] = productItem.getWeight();
+            i++;
         }
+        totalPrice = cartObject.getTotalPrice();
+        buyingOption = cartObject.getBuyingOptionAlgo();
+
+    }
 //
 //        for(int i = 0; i < productsLength; i++){
-            //            int j = 0;
+    //            int j = 0;
 //            cartObject.getProducts().forEach((item) -> {
 //                item.getPrice();
 //            });
 
 
-
     public static void main(String[] args) throws URISyntaxException, IOException {
+        JsonHandler js = new JsonHandler();
         ShoppingCartService shoppingCartService = new ShoppingCartService();
-        CartObject itemsForShoppingCart = shoppingCartService.buildOptimalShoppingCart();
+        CartObject array = shoppingCartService.buildOptimalShoppingCart();
+        for(int i = 0 ;i<array.getProducts().size();i++){
+            //System.out.println(array.getProducts().get(i).getName());
+        }
+        //System.out.println(js.OptimalToJSON(array));
+        //daoFile.write(array,"1");
+       // ShoppingCartService shoppingCartService = new ShoppingCartService();
+       // CartObject itemsForShoppingCart = shoppingCartService.buildOptimalShoppingCart();
+
     }
 
 }

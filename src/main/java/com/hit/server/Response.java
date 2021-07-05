@@ -1,18 +1,21 @@
 package com.hit.server;
 
+
 public class Response {
-    private String action;
-    private String body;
-
-    public Response(String action, String body) {
-        this.action = action;
-        this.body = body;
+    Headers headers;
+    body body;
+    class Headers {
+        String action;
+        public String getAction() {
+            return action;
+        }
     }
-
-    public String getAction(){
-        return action;
-    }
-    public String getBody(){
-        return body;
+    class body {
+        String json;
+        public String getJson() {
+            return json;
+        }
     }
 }
+
+

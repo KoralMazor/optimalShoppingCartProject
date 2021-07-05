@@ -1,19 +1,24 @@
 package com.hit.server;
 
+import java.util.Map;
+
 public class Request {
-        private String action;
-        private String body;
-
-        public Request(String action, String body) {
-            this.action = action;
-            this.body = body;
-        }
-
-        public String getAction(){
+        Headers headers;
+        body body;
+    class Headers {
+        String action;
+        public String getAction() {
             return action;
         }
-        public String getBody(){
-            return body;
+    }
+    class body {
+        String json;
+        public String getJson() {
+            return json;
         }
     }
+
+}
+
+
 

@@ -1,78 +1,46 @@
-//package com.hit.server;
-//
-//import com.google.gson.Gson;
-//
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.io.ObjectOutputStream;
-//import java.io.OutputStream;
-//import java.net.ServerSocket;
-//import java.net.Socket;
-//import java.util.ArrayList;
-//import java.util.HashMap;
-//
-//public class Server implements Runnable {
-//    @Override
-//    public void run() {
-//        ArrayList<Socket> clients = new ArrayList<>();
-//        try(
-//                ServerSocket serversocket = new ServerSocket(5000))
-//        {
-//            System.out.println("Server is started...");
-//            while (true) {
-//                Socket socket = serversocket.accept();
-//                clients.add(socket);
-//                ThreadServer ThreadServer = new ThreadServer(socket);
-//                ThreadServer.start();
-//            }
-//        } catch
-//        (Exception e)
-//
-//        {
-//            System.out.println(e.getStackTrace());
-//        }
-//    }
-//}
-//    class ThreadServer extends Thread {
-//        private ObjectOutputStream objectOutput;
-//        private Socket socket;
-//        private InputStream inputStream = null;
-//        private OutputStream outputStream = null;
-//
-//        public static final int CHECK_FOR_MESSAGES = 1;
-//        public static final int SEND_MESSAGE = 2;
-//        public static final int GET_HD_INFO = 3;
-//        public static final int OKAY = 200;
-//
-//        public ThreadServer(Socket socket) {
-//            this.socket = socket;
-//        }
-//
-//        @Override
-//        public void run() {
-//            try {
-//                Gson gson = new Gson();
-//                inputStream = socket.getInputStream();
-//                outputStream = socket.getOutputStream();
-//                String json = gson.toJson(inputStream.read());
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                if (inputStream != null) {
-//                    try {
-//                        inputStream.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                if (outputStream != null) {
-//                    try {
-//                        outputStream.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//    }
+package com.hit.server;
+
+import com.google.gson.Gson;
+import sun.rmi.runtime.Log;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class Server implements Runnable , Serializable {
+    transient ObjectInputStream reader;
+    transient ObjectOutputStream writer;
+    transient String s;
+    static final int MAX_T = 3;
+    public boolean KEPP_SERVBER_ALIVE = true;
+    ExecutorService pool;
+
+    @Override
+    public void run() {
+        pool = Executors.newFixedThreadPool(MAX_T);
+        try {
+
+            ServerSocket serversocket = null;
+            serversocket = new ServerSocket(5000);
+            System.out.println("Server is started...");
+            Socket socket = new Socket();
+            while(KEPP_SERVBER_ALIVE) {
+                socket = serversocket.accept();
+                HandleRequest request = new HandleRequest(socket, reader, writer);
+                pool.execute(request);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void setServerStatus(boolean state){
+        this.KEPP_SERVBER_ALIVE = state;
+    }
+}

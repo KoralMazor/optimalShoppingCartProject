@@ -2,6 +2,7 @@ package com.hit.service;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -13,9 +14,10 @@ import com.hit.dao.DaoFileImpl;
 import com.hit.dao.IDao;
 import com.hit.dm.CartObject;
 import com.hit.dm.Product;
+import com.hit.server.Server;
 import com.hit.utils.JsonHandler;
 
-public class ShoppingCartService {
+public class ShoppingCartService implements Serializable {
     private IAlgoKnapsack algoKnapsack;
     private IDao dao;
 
@@ -53,6 +55,7 @@ public class ShoppingCartService {
 
     public void parseCartObjectToAlgoParams(CartObject cartObject)
     {
+
         int totalPrice;
         String buyingOption;
         String buyingOptionAlgo;
@@ -79,12 +82,19 @@ public class ShoppingCartService {
 
 
     public static void main(String[] args) throws URISyntaxException, IOException {
+        Server server = new Server();
+        server.run();
+        /*
         JsonHandler js = new JsonHandler();
         ShoppingCartService shoppingCartService = new ShoppingCartService();
         CartObject array = shoppingCartService.buildOptimalShoppingCart();
         for(int i = 0 ;i<array.getProducts().size();i++){
             //System.out.println(array.getProducts().get(i).getName());
+
+
         }
+         */
+
         //System.out.println(js.OptimalToJSON(array));
         //daoFile.write(array,"1");
        // ShoppingCartService shoppingCartService = new ShoppingCartService();

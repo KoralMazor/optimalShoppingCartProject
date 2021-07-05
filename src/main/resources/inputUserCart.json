@@ -1,0 +1,21 @@
+{
+  "products": [
+    {
+      "name": "Apple",
+      "weight": 60,
+      "price": 10
+    },
+    {
+      "name": "Banana",
+      "weight": 100,
+      "price": 20
+    },
+    {
+      "name": "Apricots",
+      "weight": 120,
+      "price": 30
+    }
+  ],
+  "totalPrice": 50,
+  "buyingOptionAlgo": "oneOrZero"
+}

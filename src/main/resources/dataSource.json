@@ -1,0 +1,107 @@
+[
+  {
+    "name" : "Apple",
+    "weight": 60,
+    "price" : 10
+  },
+  {
+    "name" : "Banana",
+    "weight": 100,
+    "price" : 20
+  },
+  {
+    "name" : "Apricots",
+    "weight": 120,
+    "price" : 30
+  },
+  {
+    "name" : "Avocado",
+    "weight": 30,
+    "price" : 6
+  },
+  {
+    "name" : "Pineapple",
+    "weight": 14,
+    "price" : 3
+  },
+  {
+    "name" : "Blueberries",
+    "weight": 16,
+    "price" : 4
+  },
+  {
+    "name" : "Coconut",
+    "weight": 9,
+    "price" : 2
+  },
+  {
+    "name" : "Grapefruit",
+    "weight": 5,
+    "price" : 2
+  },
+  {
+    "name" : "Guava",
+    "weight": 12,
+    "price" : 10
+  },
+  {
+    "name" : "Mango",
+    "weight": 60,
+    "price" : 10
+  },
+  {
+    "name":"Cabbage",
+    "weight": 100,
+    "price": 20
+  },
+  {
+    "name":"Garlic",
+    "weight": 30,
+    "price": 6
+  },
+  {
+    "name":"Tomatoes",
+    "weight": 120,
+    "price": 30
+  },
+  {
+    "name":"Carrots",
+    "weight": 14,
+    "price": 3
+  },
+  {
+    "name":"Onions",
+    "weight": 2,
+    "price": 17
+  },
+  {
+    "name":"Potatoes",
+    "weight": 3,
+    "price": 80
+  },
+  {
+    "name" : "Artichoke",
+    "weight": 10,
+    "price" : 100
+  },
+  {
+    "name" : "Arugula",
+    "weight": 9,
+    "price" : 2
+  },
+  {
+    "name" : "Broccoli",
+    "weight": 2,
+    "price" : 30
+  },
+  {
+    "name" : "Lettuce",
+    "weight": 16,
+    "price" : 4
+  }
+]
+
+
+
+
+

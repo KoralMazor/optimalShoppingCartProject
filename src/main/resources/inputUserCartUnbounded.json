@@ -1,0 +1,26 @@
+{
+  "products" : [
+    {
+      "name" : "Avocado",
+      "weight": 30,
+      "price" : 6
+    },
+    {
+      "name" : "Pineapple",
+      "weight": 14,
+      "price" : 3
+    },
+    {
+      "name" : "Blueberries",
+      "weight": 16,
+      "price" : 4
+    },
+    {
+      "name" : "Coconut",
+      "weight": 9,
+      "price" : 2
+    }
+  ],
+  "totalPrice": 10,
+  "buyingOptionAlgo": "unbounded"
+}

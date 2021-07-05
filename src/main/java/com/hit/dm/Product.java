@@ -1,33 +1,39 @@
 package com.hit.dm;
 
 public class Product {
+
+    private  String name;
+    private int price;
+    private int weight;
+
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public int getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(int price) {
-        Price = price;
+        this.price = price;
     }
 
     public int getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(int weight) {
-        Weight = weight;
+        this.weight = weight;
     }
 
-    private String Name;
-    private int Price;
-    private int Weight;
+
+
+
+
 
 
 

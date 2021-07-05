@@ -3,7 +3,7 @@ package com.hit.service;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-
+import java.util.List;
 import com.hit.algo.IAlgoKnapsack;
 import com.hit.algo.OneOrZeroKnapsackAlgoImpl;
 import com.hit.algo.UnboundedKnapsackAlgoImpl;
@@ -17,15 +17,15 @@ public class ShoppingCartService {
 
     private IAlgoKnapsack oneOrZeroKnapsackAlgo = new OneOrZeroKnapsackAlgoImpl();
     private IAlgoKnapsack unboundedKnapsackAlgo = new UnboundedKnapsackAlgoImpl();
-    private IDao dao;
+    private static IDao dao = new DaoFileImpl();
 
     ShoppingCartService() {
     }
 
-    ShoppingCartService(IAlgoKnapsack algoKnapsack, IDao dao) {
-        oneOrZeroKnapsackAlgo = new OneOrZeroKnapsackAlgoImpl();
-        unboundedKnapsackAlgo = new UnboundedKnapsackAlgoImpl();
-        this.dao = dao;
+    public ShoppingCartService(IAlgoKnapsack algoKnapsack, IDao dao) {
+        this.oneOrZeroKnapsackAlgo = new OneOrZeroKnapsackAlgoImpl();
+        this.unboundedKnapsackAlgo = new UnboundedKnapsackAlgoImpl();
+        this.dao = new DaoFileImpl();
     }
 
     public IAlgoKnapsack getOneOrZeroKnapsackAlgo() {
@@ -52,24 +52,31 @@ public class ShoppingCartService {
         this.dao = dao;
     }
 
-    public CartObject buildOptimalShoppingCart() throws URISyntaxException, IOException {
-        int[] productsForOptimalCart;
-        DaoFileImpl daoFile = new DaoFileImpl();
-        CartObject inputShoppingCart = daoFile.read("inputCartOptions.json");
-        runKnapsackAlgo(inputShoppingCart);
-        // productsForOptimalCart = algoKnapsack.buildShoppingCart()
-        return inputShoppingCart;
-
+    public List<Product> getProductsList() throws IOException {
+        DaoFileImpl daoFile = new DaoFileImpl(System.getProperty("user.dir")+"\\src\\main\\resources\\"+"dataSource.json");
+        List<Product> products = daoFile.read(daoFile.getFilePath());
+        return products;
     }
 
-    public ArrayList<Integer> runKnapsackAlgo(CartObject cartObject) {
 
+    public OptimalCartObject buildOptimalShoppingCart(String inputUserFile) throws IOException {
+       OptimalCartObject algoOutput;
+       DaoFileImpl daoFile = new DaoFileImpl(System.getProperty("user.dir")+"\\src\\main\\resources\\outputOptimalCart.json");
+       CartObject cartObject = daoFile.readInputUser(inputUserFile);
+       algoOutput = runKnapsackAlgo(cartObject);
+       daoFile.write(algoOutput);
+
+       return algoOutput;
+    }
+
+    public OptimalCartObject runKnapsackAlgo(CartObject cartObject) {
         int totalPrice;
         String buyingOptionAlgo;
         ArrayList<Integer> algoOutputIndexes;
         int productsLength = cartObject.getProducts().size(), i = 0;
         int[] prices = new int[productsLength];
         int[] weights = new int[productsLength];
+        OptimalCartObject optimalCartObject;
 
         totalPrice = cartObject.getTotalPrice();
         buyingOptionAlgo = cartObject.getBuyingOptionAlgo();
@@ -88,11 +95,11 @@ public class ShoppingCartService {
                 algoOutputIndexes = null;
             }
         }
-        parseAlgoOutputToOptimalCartObject(algoOutputIndexes, cartObject, weights, prices, totalPrice);
-        return algoOutputIndexes;
+        optimalCartObject = parseAlgoOutputToOptimalCartObject(algoOutputIndexes, cartObject, totalPrice);
+        return optimalCartObject;
     }
 
-    public OptimalCartObject parseAlgoOutputToOptimalCartObject(ArrayList<Integer> algoOutput, CartObject cartObject, int [] weights, int [] prices, int totalPrice){
+    public OptimalCartObject parseAlgoOutputToOptimalCartObject(ArrayList<Integer> algoOutput, CartObject cartObject, int totalPrice){
         Product product = new Product();
         ArrayList<Product> products =  new ArrayList<>();
         OptimalCartObject optimalCartObject = new OptimalCartObject();
@@ -115,9 +122,18 @@ public class ShoppingCartService {
         return optimalCartObject;
     }
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
+    public static void main(String[] args) throws URISyntaxException, IOException, ClassNotFoundException {
         ShoppingCartService shoppingCartService = new ShoppingCartService();
-        CartObject itemsForShoppingCart = shoppingCartService.buildOptimalShoppingCart();
+
+      //  DaoFileImpl daoFile = new DaoFileImpl("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\outputOptimalCart.json");
+      //  OptimalCartObject itemsForShoppingCart = shoppingCartService.buildOptimalShoppingCart();
+       //
+        //shoppingCartService.getProductsList("dataSources.txt");
+       // shoppingCartService.getDao().readInputUser("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\inputUserCart.json");
+        shoppingCartService.buildOptimalShoppingCart("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\inputUserCartUnbounded.json");
+
+
+
     }
 }
 

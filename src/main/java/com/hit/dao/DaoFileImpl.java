@@ -51,7 +51,6 @@ public class DaoFileImpl<T> implements IDao<T> {
         return cartObject;
     }
 
-
     @Override
     public void remove(T t) {
 

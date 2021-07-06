@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import com.hit.algo.IAlgoKnapsack;
 import com.hit.algo.OneOrZeroKnapsackAlgoImpl;
 import com.hit.algo.UnboundedKnapsackAlgoImpl;
@@ -15,9 +17,9 @@ import com.hit.dm.Product;
 
 public class ShoppingCartService {
 
+    private static IDao dao = new DaoFileImpl();
     private IAlgoKnapsack oneOrZeroKnapsackAlgo = new OneOrZeroKnapsackAlgoImpl();
     private IAlgoKnapsack unboundedKnapsackAlgo = new UnboundedKnapsackAlgoImpl();
-    private static IDao dao = new DaoFileImpl();
 
     ShoppingCartService() {
     }
@@ -26,6 +28,18 @@ public class ShoppingCartService {
         this.oneOrZeroKnapsackAlgo = new OneOrZeroKnapsackAlgoImpl();
         this.unboundedKnapsackAlgo = new UnboundedKnapsackAlgoImpl();
         this.dao = new DaoFileImpl();
+    }
+
+    public static void main(String[] args) throws URISyntaxException, IOException, ClassNotFoundException {
+        ShoppingCartService shoppingCartService = new ShoppingCartService();
+
+        //  DaoFileImpl daoFile = new DaoFileImpl("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\outputOptimalCart.json");
+        //  OptimalCartObject itemsForShoppingCart = shoppingCartService.buildOptimalShoppingCart();
+        //
+        //shoppingCartService.getProductsList("dataSources.txt");
+        // shoppingCartService.getDao().readInputUser("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\inputUserCart.json");
+        shoppingCartService.buildOptimalShoppingCart("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\inputUserCart.json");
+
     }
 
     public IAlgoKnapsack getOneOrZeroKnapsackAlgo() {
@@ -53,20 +67,20 @@ public class ShoppingCartService {
     }
 
     public List<Product> getProductsList() throws IOException {
-        DaoFileImpl daoFile = new DaoFileImpl(System.getProperty("user.dir")+"\\src\\main\\resources\\"+"dataSource.json");
+        DaoFileImpl daoFile = new DaoFileImpl(System.getProperty("user.dir") + "\\src\\main\\resources\\" + "dataSource.json");
         List<Product> products = daoFile.read(daoFile.getFilePath());
         return products;
     }
 
-
     public OptimalCartObject buildOptimalShoppingCart(String inputUserFile) throws IOException {
-       OptimalCartObject algoOutput;
-       DaoFileImpl daoFile = new DaoFileImpl(System.getProperty("user.dir")+"\\src\\main\\resources\\outputOptimalCart.json");
-       CartObject cartObject = daoFile.readInputUser(inputUserFile);
-       algoOutput = runKnapsackAlgo(cartObject);
-       daoFile.write(algoOutput);
+        OptimalCartObject algoOutput;
+        DaoFileImpl daoFile = new DaoFileImpl(System.getProperty("user.dir") + "\\src\\main\\resources\\outputOptimalCart.json");
 
-       return algoOutput;
+        CartObject cartObject = daoFile.readInputUser(inputUserFile);
+        algoOutput = runKnapsackAlgo(cartObject);
+        daoFile.write(algoOutput);
+
+        return algoOutput;
     }
 
     public OptimalCartObject runKnapsackAlgo(CartObject cartObject) {
@@ -99,17 +113,16 @@ public class ShoppingCartService {
         return optimalCartObject;
     }
 
-    public OptimalCartObject parseAlgoOutputToOptimalCartObject(ArrayList<Integer> algoOutput, CartObject cartObject, int totalPrice){
+    public OptimalCartObject parseAlgoOutputToOptimalCartObject(ArrayList<Integer> algoOutput, CartObject cartObject, int totalPrice) {
         Product product = new Product();
-        ArrayList<Product> products =  new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<>();
         OptimalCartObject optimalCartObject = new OptimalCartObject();
-        Integer [] indexes;
+        Integer[] indexes;
         int totalWeights = 0;
 
-        indexes = algoOutput.stream().toArray( n -> new Integer[n]);
+        indexes = algoOutput.stream().toArray(n -> new Integer[n]);
 
-        for(int i = 0; i < indexes.length; i++)
-        {
+        for (int i = 0; i < indexes.length; i++) {
             product = cartObject.getProducts().get(indexes[i]);
             products.add(product);
             totalWeights += product.getWeight();
@@ -122,18 +135,17 @@ public class ShoppingCartService {
         return optimalCartObject;
     }
 
-    public static void main(String[] args) throws URISyntaxException, IOException, ClassNotFoundException {
-        ShoppingCartService shoppingCartService = new ShoppingCartService();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingCartService that = (ShoppingCartService) o;
+        return Objects.equals(oneOrZeroKnapsackAlgo, that.oneOrZeroKnapsackAlgo) && Objects.equals(unboundedKnapsackAlgo, that.unboundedKnapsackAlgo);
+    }
 
-      //  DaoFileImpl daoFile = new DaoFileImpl("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\outputOptimalCart.json");
-      //  OptimalCartObject itemsForShoppingCart = shoppingCartService.buildOptimalShoppingCart();
-       //
-        //shoppingCartService.getProductsList("dataSources.txt");
-       // shoppingCartService.getDao().readInputUser("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\inputUserCart.json");
-        shoppingCartService.buildOptimalShoppingCart("C:\\Users\\koral\\optimalShoppingCartProject\\src\\main\\resources\\inputUserCartUnbounded.json");
-
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(oneOrZeroKnapsackAlgo, unboundedKnapsackAlgo);
     }
 }
 

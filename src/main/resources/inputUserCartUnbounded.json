@@ -1,21 +1,25 @@
 {
   "products" : [
     {
+      "id": 4,
       "name" : "Avocado",
       "weight": 30,
       "price" : 6
     },
     {
+      "id": 5,
       "name" : "Pineapple",
       "weight": 14,
       "price" : 3
     },
     {
+      "id": 6,
       "name" : "Blueberries",
       "weight": 16,
       "price" : 4
     },
     {
+      "id": 7,
       "name" : "Coconut",
       "weight": 9,
       "price" : 2

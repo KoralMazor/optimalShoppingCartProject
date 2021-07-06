@@ -1,6 +1,7 @@
 package com.hit.dm;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class OptimalCartObject {
 
@@ -32,5 +33,16 @@ public class OptimalCartObject {
         this.totalPrice = totalPrice;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OptimalCartObject)) return false;
+        OptimalCartObject that = (OptimalCartObject) o;
+        return totalPrice == that.totalPrice && totalWeights == that.totalWeights && Objects.equals(products, that.products);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(products, totalPrice, totalWeights);
+    }
 }

@@ -1,18 +1,19 @@
 package com.hit.dm;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartObject {
 
-    private ArrayList<Product>  products;
+    private List<Product> products;
     private int totalPrice;
     private String buyingOptionAlgo;
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 

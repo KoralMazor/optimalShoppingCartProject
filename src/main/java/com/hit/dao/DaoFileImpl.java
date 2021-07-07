@@ -1,43 +1,59 @@
 package com.hit.dao;
-
-// This class will implement  IDao interface
-// This class  will be responsible for  read from files and write to them
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hit.dm.CartObject;
+import com.hit.dm.OptimalCartObject;
+import com.hit.dm.Product;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.io.*;
 
-import static com.hit.utils.JsonHandler.*;
+import java.util.List;
 
-public class DaoFileImpl <T> implements IDao<CartObject> {
-    @Override
-    public void write(CartObject t, String filePath) throws FileNotFoundException, IOException {
-        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath, true));
-        // Call here to ConvertCartObjectToJson and then write the json to file
-        outputStream.writeObject(t + "\n");
-        outputStream.close();
+public class DaoFileImpl<T> implements IDao<T> {
+
+    private String filePath;
+
+    public DaoFileImpl(){
+
+    }
+    public DaoFileImpl(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     @Override
-    public CartObject read(String inputFile) throws URISyntaxException, IOException {
-        CartObject cartObject = new CartObject();
-        String file = readFileFromResources(inputFile);
-        cartObject = parseJsonToCartObjectShoppingCartOptions(file);
+    public void write(OptimalCartObject optimalCartObject) throws FileNotFoundException, IOException {
+        Gson gson = new Gson();
+        FileWriter writer = new FileWriter(filePath);
+        gson.toJson(optimalCartObject, writer);
+        writer.flush();
+        writer.close();
+    }
+
+    @Override
+    public List<Product> read(String filePath) throws IOException {
+        Gson gson = new Gson();
+        List<Product> products = gson.fromJson(new FileReader(filePath), new TypeToken<List<Product>>() {}.getType());
+        return products;
+    }
+
+    @Override
+    public CartObject readInputUser(String filePath) throws IOException {
+        Gson gson = new Gson();
+        CartObject cartObject = gson.fromJson(new FileReader(filePath), CartObject.class);
         return cartObject;
-
     }
 
     @Override
-    public void remove(CartObject o) {
+    public void remove(T t) {
 
     }
-
-
 
 }

@@ -1,33 +1,58 @@
 package com.hit.dm;
 
 public class Product {
-    private String Name;
-    private int Price;
-    private int Weight;
+    private long id;
+    private  String name;
+    private int price;
+    private int weight;
+
+    public Product(){}
+    public Product(long id, String name, int price, int weight){
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.weight = weight;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public int getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(int price) {
-        Price = price;
+        this.price = price;
     }
 
     public int getWeight() {
-        return Weight;
+        return weight;
     }
 
     public void setWeight(int weight) {
-        Weight = weight;
+        this.weight = weight;
     }
+
+
+
+
+
+
+
+
 
 
 }
